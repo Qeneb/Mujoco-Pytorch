@@ -1,4 +1,5 @@
-# Mujoco-Pytorch
+
+# Qeneb Mujoco-Pytorch
 * Reinforcement learning algorithm Application on Mujoco
 
 <left><img src="https://github.com/seolhokim/Mujoco-Pytorch/blob/main/assets/ant.gif" width="250" height="200"></left>
