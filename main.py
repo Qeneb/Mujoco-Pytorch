@@ -15,8 +15,8 @@ os.makedirs('./model_weights', exist_ok=True)
 
 parser = ArgumentParser('parameters')
 
-parser.add_argument("--env_name", type=str, default = 'Hopper-v2', help = "'Ant-v2','HalfCheetah-v2','Hopper-v2','Humanoid-v2','HumanoidStandup-v2',\
-          'InvertedDoublePendulum-v2', 'InvertedPendulum-v2' (default : Hopper-v2)")
+parser.add_argument("--env_name", type=str, default = 'Hopper-v4', help = "'Ant-v2','HalfCheetah-v2','Hopper-v4','Humanoid-v2','HumanoidStandup-v2',\
+          'InvertedDoublePendulum-v2', 'InvertedPendulum-v2' (default : Hopper-v4)")
 parser.add_argument("--algo", type=str, default = 'ppo', help = 'algorithm to adjust (default : ppo)')
 parser.add_argument('--train', type=bool, default=True, help="(default: True)")
 parser.add_argument('--render', type=bool, default=False, help="(default: False)")
@@ -35,7 +35,7 @@ agent_args = Dict(parser,args.algo)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 if args.use_cuda == False:
     device = 'cpu'
-    
+print(device)
 if args.tensorboard:
     from torch.utils.tensorboard import SummaryWriter
     writer = SummaryWriter()
@@ -67,7 +67,7 @@ if args.load != 'no':
 score_lst = []
 state_lst = []
 
-if agent_args.on_policy == True:
+if agent_args.on_policy:
     score = 0.0
     state_ = (env.reset())
     state = np.clip((state_ - state_rms.mean) / (state_rms.var ** 0.5 + 1e-8), -5, 5)
@@ -110,7 +110,7 @@ if agent_args.on_policy == True:
         if n_epi%args.save_interval==0 and n_epi!=0:
             torch.save(agent.state_dict(),'./model_weights/agent_'+str(n_epi))
             
-else : # off policy 
+else : # off policy
     for n_epi in range(args.epochs):
         score = 0.0
         state = env.reset()
