@@ -70,6 +70,8 @@ state_lst = []
 if agent_args.on_policy:
     score = 0.0
     state_ = (env.reset())
+    print(state_)
+    print(state_rms.mean)
     state = np.clip((state_ - state_rms.mean) / (state_rms.var ** 0.5 + 1e-8), -5, 5)
     for n_epi in range(args.epochs):
         for t in range(agent_args.traj_length):
